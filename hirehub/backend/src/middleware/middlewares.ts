@@ -46,7 +46,7 @@ export const employerOnly = async (c : Context, next : Next) => {
 
     console.log(`employerOnly Middleware - User Role: ${userRole}`);
 
-    if (userRole == "EMPLOYER") {
+    if (userRole === "EMPLOYER") {
         await next();
 
     } else {
@@ -62,7 +62,7 @@ export const employeeOnly = async (c : Context, next : Next) => {
 
     console.log(`employeeOnly Middleware - User Role: ${userRole}`);
 
-    if (userRole == "EMPLOYEE") {
+    if (userRole === "EMPLOYEE") {
         await next();
 
     } else {

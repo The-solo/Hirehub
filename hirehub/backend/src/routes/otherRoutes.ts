@@ -47,4 +47,11 @@ otherRoutes.get("/feed", auth, async(c)=>{
 });
 
 
+
+//search functionality route --optional
+otherRoutes.get("/search/:string", auth, async (c) =>{
+
+});
+
+
 export default otherRoutes;

@@ -27,7 +27,7 @@ enum JobType {
 model User {
   id Int @id @default(autoincrement())
   email String @db.VarChar(255)@unique
-  name String? @unique @db.VarChar(255)
+  name String? @db.VarChar(255)
   password String
   role Role
   description String?
@@ -49,6 +49,7 @@ model JobPosting {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   employer User @relation(fields: [employerId], references: [id])
+  applications  Application[]
 }
 
 model Application {
@@ -58,4 +59,5 @@ model Application {
   resumeUrl String? 
   createdAt DateTime @default(now())
   employee User @relation(fields: [employeeId], references: [id])
+  jobPosting    JobPosting  @relation(fields: [jobPostingId], references: [id])
 }

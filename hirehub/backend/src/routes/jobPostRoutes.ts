@@ -2,7 +2,6 @@ import { Hono } from 'hono'
 import { getPrisma } from '../prismaFun';
 import { auth, employerOnly } from '../middleware/middlewares';
 import { createJobPostInput, updateJobPostInput } from '../validation/validationSchemas';
-import { timeout } from 'hono/timeout';
 
 const jobPostRouter = new Hono<{
     Bindings : {
@@ -14,6 +13,67 @@ const jobPostRouter = new Hono<{
         jobId : number;
     }
 }>()
+
+
+//route to get the all the application submited to the specific post.
+jobPostRouter.get("/applications", auth, employerOnly, async(c) => {
+    const prisma = getPrisma(c.env.DATABASE_URL);
+    try {
+        const employerID = c.get('userId');
+
+        const jobPostings = await prisma.jobPosting.findMany({
+            where: { 
+                id : employerID
+            },
+            include: {
+              applications: {
+                include: {
+                  employee: {
+                    select: {
+                      id: true,
+                      name: true,
+                      email: true,
+                      education: true,
+                    },
+                  },
+                },
+              },
+            },
+          });
+        
+        //Structure Response
+        const response = jobPostings.map((job) => ({
+            jobPosting: {
+              id: job.id,
+              title: job.title,
+              description: job.description,
+              jobType: job.jobType,
+              location: job.location,
+              company: job.company,
+            },
+            applications: job.applications.map((app) => ({
+              id: app.id,
+              resumeUrl: app.resumeUrl,
+              createdAt: app.createdAt,
+              employee: app.employee,
+            })),
+            totalApplications: job.applications.length,
+        }));
+
+        return c.json({
+            jobPostings: response
+        }, 200);
+
+    } catch(err) {
+        console.error('Error:', err);
+        c.status(500)
+        return c.text("Error fetching the applications.", 500);
+        
+    } finally {
+        await prisma.$disconnect();
+    }
+});
+
 
 
 //route for creating the job-posts
@@ -177,8 +237,5 @@ jobPostRouter.delete("/delete/:id",auth, employerOnly, async (c)=> {
         await prisma.$disconnect();
     }
 });
-
-
-
 
 export default jobPostRouter;

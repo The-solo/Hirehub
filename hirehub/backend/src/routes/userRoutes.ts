@@ -150,7 +150,7 @@ userRouter.get('/profile', auth, async (c) => {
     } catch (error) {
         console.error('Error while fetching profile:', error);
         return c.json({ 
-        error: 'Internal Server Error' 
+        error: 'Error fetching profile' 
     }, 500);
 
     } finally {
@@ -176,7 +176,6 @@ userRouter.put("/profile/update", auth, async(c) => {
         const { password, ...otherFields } = body;
         const updateData = { ...otherFields };
 
-        //checking if the password exists.
         if (password && password !== "") {
             const hashedPassword = await bcrypt.hash(
                 body.password + c.env.PEPPER, 12);
@@ -241,7 +240,7 @@ userRouter.delete('/profile', auth, async (c) => {
     } catch (error) {
       console.error('Error deleting profile:', error);
       return c.json({ 
-        error: 'Internal Server Error'
+        error: 'Error deleting profile'
      }, 500);
 
     } finally {
