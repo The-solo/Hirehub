@@ -13,7 +13,7 @@ const applicationRouter = new Hono<{
 }>() 
 
 
-applicationRouter.post("/create", auth, employeeOnly, async (c)=> {
+applicationRouter.post("/new", auth, employeeOnly, async (c)=> {
     const prisma = getPrisma(c.env.DATABASE_URL);
 
     try {
@@ -64,6 +64,47 @@ applicationRouter.post("/update/:id", auth, employeeOnly, async (c)=> {
     const prisma = getPrisma(c.env.DATABASE_URL);
 
     try {
+        const body = await c.req.json();
+        const applicationId = parseInt(c.req.param('id'));
+        const employeeId = c.get('userId');
+
+        const isValid = updateApplicationSchema.safeParse(body);
+
+        if(!isValid.success) {
+            return c.json({
+                message : "Invalid Inputs."
+            }, 403)
+        }
+
+        const application = await prisma.application.findUnique({
+          where: {
+            id: applicationId 
+         },
+        });
+
+        if (!application) {
+          return c.json({
+            error: 'Application not found.'
+         }, 404);
+        }
+    
+        if (application.employeeId !== employeeId) {
+          return c.json({
+            error: 'Unauthorized to update this application.'
+         },403);
+        }
+    
+        // Update Application
+        const updatedApplication = await prisma.application.update({
+          where: {
+            id: applicationId
+         }, data : body,
+        });
+    
+        return c.json({
+            message: 'Application updated successfully.',
+            application: updatedApplication
+        }, 200);
 
     } catch(err) {
         console.error('Error:', err);
@@ -77,11 +118,43 @@ applicationRouter.post("/update/:id", auth, employeeOnly, async (c)=> {
 
 
 
+
 //route to delete the application
 applicationRouter.post("/delete/:id", auth, employeeOnly, async (c)=> {
     const prisma = getPrisma(c.env.DATABASE_URL);
 
     try {
+        const applicationId = parseInt(c.req.param('id'));
+        const employeeId = c.get('userId');
+
+        const application = await prisma.application.findUnique({
+            where: {
+                id: applicationId
+            },
+        });
+
+
+        if (!application) {
+            return c.json({
+                error: 'Application not found.'
+            }, 404);
+        }
+
+        if (application.employeeId !== employeeId) {
+            return c.json({
+                error: 'Unauthorized to delete this application.'
+            }, 403);
+        }
+
+        await prisma.application.delete({
+            where: {
+                id: applicationId
+            },
+        });
+
+        return c.json({
+            message: 'Application deleted successfully.'
+        }, 200);
 
     } catch(err) {
         console.error('Error:', err);
@@ -92,4 +165,6 @@ applicationRouter.post("/delete/:id", auth, employeeOnly, async (c)=> {
         await prisma.$disconnect();
     }
 });
+
+
 export default applicationRouter;

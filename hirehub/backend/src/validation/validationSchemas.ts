@@ -52,7 +52,7 @@ export const updateJobPostInput = z.object({
 
 export const createApplicationSchema = z.object({
     jobPostingId: z.number(),
-    resumeUrl: z.string().url().optional(),
+    resumeUrl: z.string().url(),
 });
   
 export const updateApplicationSchema = z.object({
