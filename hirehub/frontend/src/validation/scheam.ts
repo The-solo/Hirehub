@@ -1,6 +1,4 @@
 import z from 'zod';
-
-const Role = z.enum(["EMPLOYEE", "EMPLOYER"]);
 const jobType = z.enum(["PART_TIME", "FULL_TIME", "INTERNSHIP"]);
 
 
@@ -9,14 +7,14 @@ export const signupInput = z.object({
     email : z.string().email(),
     name : z.string().min(3).max(255).optional().or(z.literal('')),
     password: z.string().min(6).max(255),
-    role : Role,
+    role : z.enum(["EMPLOYEE", "EMPLOYER"]),
     description : z.string().optional(),
     education : z.string().max(255).optional(),
 });
 
 export const signinInput = z.object({
     email : z.string().email(),
-    password : z.string().min(6).max(255)
+    password : z.string().min(6).max(255),
 });
 
 export const editProfileInput = z.object({

@@ -51,7 +51,9 @@ userRouter.post('/signup', async (c) => {
                 email : body.email,
                 password : body.password,
                 role : body.role,
-                name : body.name
+                name : body.name,
+                description : body.description,
+                education : body.education,
             }
         });
 
@@ -76,8 +78,9 @@ userRouter.post('/signin', async(c) => {
         const body = await c.req.json();
 
         const isValid = signinInput.safeParse(body);
+
         if(!isValid.success) {
-          return c.text("Invalid Inputs", 400);
+          return c.json("Invalid Inputs", 401);
         }
 
         const user = await prisma.user.findUnique({
@@ -88,7 +91,7 @@ userRouter.post('/signin', async(c) => {
 
         if(!user) {
             c.status(403);
-            return c.text("Invalid credentials!", 401);
+            return c.json("Invalid credentials!", 401);
         }
 
         // Verify the password 
@@ -98,20 +101,25 @@ userRouter.post('/signin', async(c) => {
         );
 
         if (!isPasswordValid) {
-            return c.text("Invalid password!", 403);
+            return c.json("Invalid password!", 401);
         }
         
         //generating the token...
-        const token = await sign({id : user.id, role : user.role},
+        const token = await sign(
+            {id : user.id, role : user.role},
             c.env.JWT_SECRET
         )
 
-      return c.json({token}, 200);
+      return c.json({
+        token : token,
+        username : user.name,
+        role : user.role
+    }, 200);
 
     } catch(err) {
         console.error('Error:', err);
         c.status(500)
-        return c.text("Something went wrong");
+        return c.json("Something went wrong", 500);
 
     } finally {
         await prisma.$disconnect();
@@ -131,6 +139,7 @@ userRouter.get('/profile', auth, async (c) => {
             id: userId,
 
         }, select : {
+            id : true,
             name : true,
             email : true,
             role : true,
