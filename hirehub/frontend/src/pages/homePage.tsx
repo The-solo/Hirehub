@@ -1,4 +1,5 @@
 import { Appbar } from "../components/AppBar";
+import HomeFeed from "../components/homeFeed";
 
 export const HomePage = () => {
 
@@ -6,8 +7,8 @@ export const HomePage = () => {
         <div>
             <Appbar/>
         </div>
-        <div className="flex justify-center py-10">
-            feed
+        <div className="flex justify-center py-8">
+            <HomeFeed/>
         </div>
     </div>
 }

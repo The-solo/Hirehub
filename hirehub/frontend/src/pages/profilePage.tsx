@@ -1,8 +1,8 @@
-import ProfileCardComponent from "../components/Profile";
+import { ProfileCardComponent }  from "../components/Profile";
 import { Appbar } from "../components/AppBar";
 
-export const profilePage = () => {
 
+export const ProfilePage = () => {
     return ( 
         <div>
             <div>
