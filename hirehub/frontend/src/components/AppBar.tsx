@@ -1,11 +1,10 @@
-
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 
 export const Appbar = () => {
 
     return (
-        <div className="border-b flex justify-between px-32 bg-cyan-100 items-center py-4">
+        <div className="border-b flex justify-between px-32 bg-cyan-100 items-center py-4 shadow-md fixed top-0 left-0 right-0 z-50">
             <div>
                 <Link to="/home">
                     <div className="font-black text-3xl">HireHub</div>

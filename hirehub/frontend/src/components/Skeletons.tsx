@@ -25,7 +25,7 @@ export const JobSkeleton: React.FC = () => {
   export const NoJobsAvailable: React.FC = () => {
     return (
       <div className="flex justify-center items-center h-80">
-        <div className="border rounded-lg shadow-lg p-8 bg-gray-50 max-w-md w-full text-center">
+        <div className="border rounded-lg shadow-lg p-12 bg-gray-50 max-w-md w-full text-center">
          
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center animate-bounce">
@@ -45,7 +45,7 @@ export const JobSkeleton: React.FC = () => {
               </svg>
             </div>
           </div>
-        <h2 className="text-4xl font-extrabold text-red-600 mb-2">Error!</h2>
+        <h2 className="text-2xl font-extrabold text-red-600 mb-2">Error!</h2>
             <h2 className="text-xl font-semibold text-gray-700 mb-2">
             Couldn't fetch the data, Try refreshing.
           </h2>
@@ -57,19 +57,22 @@ export const JobSkeleton: React.FC = () => {
 
   export const ProfileCardSkeleton: React.FC = () => {
     return (
-      <div className="pt-10 flex items-center justify-center bg-white">
-        <div className="w-full max-w-md bg-indigo-100 py-4 px-6 rounded-lg shadow-md flex flex-col items-center relative">
+      <div className="pt-8 flex items-center justify-center bg-white">
+        <div className="w-full max-w-md bg-indigo-100 py-10 px-6 rounded-lg shadow-md flex flex-col items-center relative">
           <div className="absolute top-4 right-4 h-8 w-8 bg-gray-200 rounded-md animate-pulse"></div>
           <div className="w-24 h-24 rounded-full bg-gray-200 animate-pulse mb-6 border-4 border-gray-300"></div>
           <div className="h-8 bg-gray-200 rounded-md w-3/4 animate-pulse mb-4"></div>
           <div className="h-6 bg-gray-200 rounded-md w-2/3 animate-pulse mb-6"></div>
-          <div className="h-5 bg-gray-200 rounded-md w-full animate-pulse mb-3"></div>
-          <div className="h-5 bg-gray-200 rounded-md w-4/5 animate-pulse mb-6"></div>
-          <div className="h-5 bg-gray-200 rounded-md w-3/4 animate-pulse mb-3"></div>
-          <div className="h-5 bg-gray-200 rounded-md w-2/3 animate-pulse"></div>
-          <div className="my-6 w-full border-t border-gray-300"></div>  
-          <div className="h-4 bg-gray-200 rounded-md w-1/2 animate-pulse mb-3"></div>
-          <div className="h-4 bg-gray-200 rounded-md w-1/2 animate-pulse"></div>
+          <div className="w-full">
+            <div className="h-5 bg-gray-200 rounded-md w-1/2 animate-pulse mb-3"></div>
+            <div className="h-5 bg-gray-200 rounded-md w-full animate-pulse mb-3"></div>
+            <div className="h-5 bg-gray-200 rounded-md w-3/4 animate-pulse"></div>
+          </div>
+          <div className="mt-6 w-full">
+            <div className="h-5 bg-gray-200 rounded-md w-1/3 animate-pulse mb-3"></div>
+            <div className="h-5 bg-gray-200 rounded-md w-4/5 animate-pulse"></div>
+          </div>
+          <div className="my-6 w-full border-t border-gray-300"></div>
         </div>
       </div>
     );
@@ -105,9 +108,9 @@ export const JobSkeleton: React.FC = () => {
             </svg>
           </div>
   
-          <h2 className="font-bold text-xl text-red-500 mb-2">No User Found!</h2>
-          <p className="text-gray-700">
-            It seems there’s no profile data available. Please try again or add a user.
+          <h2 className="font-bold text-2xl text-red-600 mb-2">No User Found!</h2>
+          <p className="text-gray-700 font-semibold text-xl">
+            No profile data available. Please try again or add a user.
           </p>
         </div>
       </div>
