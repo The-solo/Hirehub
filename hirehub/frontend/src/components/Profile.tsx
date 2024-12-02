@@ -1,3 +1,5 @@
+// src/components/ProfileCardComponent.tsx
+
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ProfileCardSkeleton, ProfileCardError } from "./Skeletons";
@@ -10,27 +12,25 @@ export const ProfileCardComponent: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const sendRequest = async () => {
     try {
       setIsLoading(true);
       setError(false);
-      const token = localStorage.getItem("token");
-
       const response = await axios.get(`${BACKEND_URL}/user/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setProfile(response.data.profile);
-
     } catch (err: any) {
       console.error("Error while fetching the profile:", err);
       setError(true);
-      
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +40,7 @@ export const ProfileCardComponent: React.FC = () => {
     sendRequest();
   }, []);
 
-  //Drop down menu handler
+  // Dropdown menu handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -54,8 +54,25 @@ export const ProfileCardComponent: React.FC = () => {
     };
   }, []);
 
+  //Delete profile function.
+  const deleteProfile = async () => {
+    try {
+      await axios.delete(`${BACKEND_URL}/user/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      navigate("/signup");
 
-  //Logout.
+    } catch (err) {
+      console.error("Error deleting profile:", err);
+      alert("An error occurred while deleting your account.");
+    }
+  };
+
+
   const handleLogout = () => {
     localStorage.clear();
     navigate("/signin");
@@ -72,16 +89,15 @@ export const ProfileCardComponent: React.FC = () => {
   if (error) {
     return <ProfileCardError />;
   }
- 
+
   return (
     <div className="pt-10 flex items-center justify-center bg-white">
       <div className="w-full max-w-md bg-indigo-100 py-10 px-6 rounded-lg shadow-md flex flex-col items-center relative">
-
         <div className="absolute top-4 right-4" ref={menuRef}>
-          {/* Dropdown button*/}
+          {/* Dropdown button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="focus:outline-none"
+            className="focus:outline-none rounded-sm"
             aria-label="Profile Options"
           >
             <svg
@@ -105,7 +121,7 @@ export const ProfileCardComponent: React.FC = () => {
             <div className="absolute right-0 mt-2 w-40 bg-zinc-100 border rounded-md shadow-lg z-10">
               <button
                 onClick={handleEditProfile}
-                className="w-full text-left px-4 py-2 hover:bg-gray-100 transition duration-200"
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 transition duration-200 rounded-sm"
               >
                 Edit Profile
               </button>
@@ -115,9 +131,38 @@ export const ProfileCardComponent: React.FC = () => {
               >
                 Logout
               </button>
+              <button
+                onClick={() => setShowConfirmationDialog(true)}
+                className="bg-red-700 text-white w-full text-left px-4 py-2 hover:bg-red-900 transition duration-200 rounded-sm"
+              >
+                Delete account
+              </button>
             </div>
           )}
         </div>
+
+        {/* Confirmation Dialog */}
+        {showConfirmationDialog && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
+            <div className="bg-white rounded-lg p-6 w-80">
+              <h3 className="text-lg font-semibold mb-4">Are you sure about this?</h3>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setShowConfirmationDialog(false)}
+                  className="bg-green-500 text-gray-800 py-2 px-4 rounded mr-2 hover:bg-gray-400"
+                >
+                  No
+                </button>
+                <button
+                  onClick={deleteProfile}
+                  className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="flex items-center justify-center w-24 h-24 rounded-full bg-gray-200 border-4 border-indigo-500 mb-4">
           <svg

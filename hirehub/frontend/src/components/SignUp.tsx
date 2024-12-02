@@ -70,8 +70,6 @@ const SignUp : React.FC<SigningProps> = () => {
                                 password: e.target.value
                             });
                         })} />
-
-                        {/* Role Select */}
                         <div>
                             <label className="font-medium text-sm mb-2">What's your objective?</label>
                             <select
@@ -102,8 +100,6 @@ const SignUp : React.FC<SigningProps> = () => {
                             });
                         })} />
                     </div>
-
-                    {/* Sign Up Button */}
                     <div className="flex justify-center mt-6">
                         <button onClick={sendRequest} type="button" className="w-full py-2.5 px-6 text-lg text-white bg-blue-600 hover:bg-blue-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             Sign Up

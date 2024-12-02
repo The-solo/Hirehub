@@ -5,6 +5,7 @@ import { SignInPage } from './pages/signInPage';
 import HomePage from './pages/homePage';
 import { ProfilePage } from './pages/profilePage';
 import { EditProfilePage } from './pages/editProfilePage';
+import CreatePostPage from './pages/createPostPage';
 
 function App() {
   return (
@@ -17,9 +18,8 @@ function App() {
 function AppWithRoutes() {
   const location = useLocation();
 
-  //Paths to exclude
+  //exclude
   const hideAppbarPaths = ['/', '/signin'];
-  
   const hideAppbar = hideAppbarPaths.includes(location.pathname);
   
   return (
@@ -34,6 +34,7 @@ function AppWithRoutes() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/edit" element={<EditProfilePage />} />
+          <Route path="/job-post" element={<CreatePostPage />} />
         </Routes>
       </div>
     </>

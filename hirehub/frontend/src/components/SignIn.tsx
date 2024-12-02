@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { LabeledInput } from "../components/Lable"; 
 import { signinInput } from '../validation/scheam';
+import { SignInError }  from "./Skeletons";
 import { useState } from 'react';
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -11,8 +12,8 @@ type SigningProps = {
 
 
 const SignIn : React.FC<SigningProps> = () => {
-
     const navigate = useNavigate();
+    const [error, setError] = useState<string | null>(null);
     const [postInputs, setPosstInputs] = useState<signinInput>({
         email : "",
         password : "",
@@ -27,15 +28,22 @@ const SignIn : React.FC<SigningProps> = () => {
             localStorage.setItem("role", response.data.role);
             localStorage.setItem("username", response.data.username);
             navigate("/home");
-            
-        } catch(error) {
-            console.log("Error while signing in."+ error);
-        }
+
+        } catch (error: any) {
+            console.log("Error while signing in:", error);
+            const errorMessage = error.response?.data || "Invalid credentials.";
+            setError(errorMessage);
+          }
+          
     }
-    
+
     return (
-        <div>
-             <Link to="/"
+        <div className="flex flex-col-reverse">
+            <div>
+              {error && <SignInError message={error} />}
+            </div>
+            <div className="flex">
+            <Link to="/"
                     className="">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -79,6 +87,7 @@ const SignIn : React.FC<SigningProps> = () => {
                 </div>
             </div>
         </div>
+    </div>
     )
 }
 

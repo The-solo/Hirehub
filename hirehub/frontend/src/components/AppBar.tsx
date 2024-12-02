@@ -6,11 +6,8 @@ export const Appbar = () => {
     return (
         <div className="border-b flex justify-between px-32 bg-cyan-100 items-center py-4 shadow-md fixed top-0 left-0 right-0 z-50">
             <div>
-                <Link to="/home">
-                    <div className="font-black text-3xl">HireHub</div>
-                </Link>
+                <div className="font-black text-3xl">HireHub</div>
             </div>
-
             <div className="flex items-center w-full max-w-md">
                 <SearchBar />
             </div>
@@ -21,7 +18,7 @@ export const Appbar = () => {
                             <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
                         </svg>
                     </Link>
-                <div className="flex items-center pl-8 ">
+                <div className="flex items-center pl-16 ">
                     <Link to="/profile" className="text-xl">
                         <Avatar/>
                     </Link>
@@ -34,7 +31,7 @@ export const Appbar = () => {
 function Avatar() {
     return (
         <div className="flex justify-center items-center">
-            <div className="relative h-10 w-10 rounded-full items-center justify-center">
+            <div className="relative h-10 w-10 rounded-full items-center justify-center bg-slate-300">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"

@@ -32,7 +32,7 @@ const EditProfileComponent: React.FC = () => {
                 navigate("/signin");
                 return;
             }
-        // Getting the current values of the profile
+            
             const response = await axios.get(`${BACKEND_URL}/user/profile`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -47,10 +47,13 @@ const EditProfileComponent: React.FC = () => {
             setDescription(response.data.profile.description || "");
             setEducation(response.data.profile.education || "");
             setRole(response.data.profile.role || "EMPLOYEE");
+
         } catch (err: any) {
             console.error("Error while fetching the profile:", err);
+
             setError(true);
         } finally {
+            
             setIsLoading(false);
         }
     };
@@ -100,8 +103,10 @@ const EditProfileComponent: React.FC = () => {
 
             console.log("Profile updated:", response.data.message);
             navigate("/profile");
+
         } catch (err: any) {
             console.error("Error while updating the profile:", err);
+
         } finally {
             setIsSubmitting(false);
         }
