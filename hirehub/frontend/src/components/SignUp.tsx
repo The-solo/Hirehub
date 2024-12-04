@@ -41,7 +41,7 @@ const SignUp : React.FC<SigningProps> = () => {
                 {/* Sign Up Form */}
                 <div className="flex flex-col gap-4 bg-white p-8 rounded-lg shadow-lg">
                     <div className="text-2xl font-bold text-center mb-2">
-                        Create an account
+                        Sign u now.
                     </div>
                     <div className="flex justify-center mb-4">
                         <div className="text-sm text-slate-700">

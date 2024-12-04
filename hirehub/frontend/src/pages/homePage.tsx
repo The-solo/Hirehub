@@ -1,4 +1,4 @@
-import HomeFeed from "../components/homeFeed";
+import { HomeFeed } from "../components/homeFeed";
 export const HomePage = () => {
 
     return <div>
@@ -7,7 +7,6 @@ export const HomePage = () => {
         </div>
     </div>
 }
-
 
 
 export default HomePage;

@@ -4,11 +4,10 @@ export const Quote = () => {
                 <div className="flex justify-center">
                     <div className="max-w-lg">
                         <div className="text-3xl font-bold">
-                            Don't wait for opportunities to come to you.
-                            Apply for your ideal job now.
+                        The first step toward your dream career starts here.
                         </div>
                         <div className="max-w-md pl-4 text-sm font-light text-slate-500">
-                            CEO | HireHub
+                            CEO | HireHub.
                         </div>
                     </div>
                 </div>   

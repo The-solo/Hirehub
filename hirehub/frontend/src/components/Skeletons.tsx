@@ -151,3 +151,70 @@ export const JobSkeleton: React.FC = () => {
   };
   
   
+export const EditProfileSkeleton: React.FC = () => {
+  return (
+    <div className="bg-white flex items-center justify-center px-4 py-10">
+      <div className="bg-slate-100 shadow-lg rounded-lg w-full max-w-3xl animate-pulse">
+        <div className="bg-indigo-500 text-white px-4 py-2 rounded-t-lg">
+          <div className="h-6 w-1/3 bg-indigo-300 rounded"></div>
+        </div>
+        <div className="px-4 py-4">
+          <div className="flex flex-wrap -mx-2">
+
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className={`w-${index === 4 ? "full" : "1/2"} px-2 mb-4`}
+              >
+                <div className="h-4 w-1/2 bg-gray-300 mb-2 rounded"></div>
+                <div className="h-10 w-full bg-gray-200 rounded"></div>
+              </div>
+            ))}
+            <div className="w-full px-2 mb-4">
+              <div className="h-4 w-1/3 bg-gray-300 mb-2 rounded"></div>
+              <div className="h-20 w-full bg-gray-200 rounded"></div>
+            </div>
+            <div className="w-1/2 px-2 mb-4">
+              <div className="h-4 w-1/2 bg-gray-300 mb-2 rounded"></div>
+              <div className="h-10 w-full bg-gray-200 rounded"></div>
+            </div>
+          </div>
+          <div className="w-full px-2">
+            <div className="h-12 w-full bg-indigo-400 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+export const JobPostLoadingSkeleton: React.FC = () => {
+  return (
+    <div className="bg-white flex items-center justify-center px-4 py-10">
+      <div className="bg-slate-100 shadow-lg rounded-lg w-full max-w-3xl animate-pulse">
+        <div className="bg-indigo-300 text-white px-4 py-2 rounded-t-lg h-10 w-1/3"></div>
+        <div className="px-4 py-4">
+          <div className="flex flex-wrap -mx-2">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="w-full px-2 mb-4">
+                <div className="h-4 bg-gray-300 rounded w-1/3 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            ))}
+            <div className="w-full px-2 mb-4">
+              <div className="h-4 bg-gray-300 rounded w-1/3 mb-2"></div>
+              <div className="h-20 bg-gray-200 rounded w-full"></div>
+            </div>
+          </div>
+          <div className="w-full px-2">
+            <div className="h-12 bg-indigo-400 rounded w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+

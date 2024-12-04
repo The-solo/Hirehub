@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import JobPostCard from "./JobPost";
+import { JobPostCard, EmployerJobsCard } from "./JobPost";
 import { JobPost } from "../types/JobPostTypes";
 import { JobSkeleton, NoJobsAvailable } from "./Skeletons";
 import { useNavigate } from "react-router-dom";
-
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-const HomeFeed: React.FC = () => {
+export const HomeFeed: React.FC = () => {
   const [feed, setFeed] = useState<JobPost[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [role, setRole] = useState<string | null>(null);
@@ -90,4 +89,71 @@ const HomeFeed: React.FC = () => {
   );
 };
 
-export default HomeFeed;
+
+
+
+
+
+export const EmployerFeed: React.FC = () => {
+    const [feed, setFeed] = useState<JobPost[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [role, setRole] = useState<string | null>(null);
+  
+    const sendRequest = async () => {
+      try {
+        setIsLoading(true);
+  
+        const token = localStorage.getItem("token");
+        const userRole = localStorage.getItem("role");
+        setRole(userRole);
+  
+        if (userRole === "EMPLOYER") {
+          const response = await axios.get(`${BACKEND_URL}/job-post/allPosts`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+  
+          setFeed(response.data.allPosts || []);
+        }
+      } catch (err: any) {
+        console.error("Error while fetching the feed:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    useEffect(() => {
+      sendRequest();
+    }, []);
+  
+
+    if (role !== "EMPLOYER") {
+        return null;
+    }
+  
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center mt-10 flex-col">
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+          <JobSkeleton />
+        </div>
+      );
+    }
+  
+    return (
+      <div className="container mx-auto p-4 relative">
+        {feed.length > 0 ? (
+          feed.map((job) => <EmployerJobsCard key={job.id} jobPost={job} />)
+        ) : (
+          <div className="text-center text-gray-600">
+            <NoJobsAvailable />
+          </div>
+        )}
+      </div>
+    );
+  };
+

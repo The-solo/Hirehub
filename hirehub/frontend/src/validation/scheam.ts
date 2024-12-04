@@ -1,6 +1,7 @@
 import z from 'zod';
-const jobType = z.enum(["PART_TIME", "FULL_TIME", "INTERNSHIP"]);
 
+
+const jobType = z.enum(["PART_TIME", "FULL_TIME", "INTERNSHIP"]);
 
 // User related scheama below
 export const signupInput = z.object({

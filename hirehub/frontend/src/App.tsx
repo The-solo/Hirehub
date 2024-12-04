@@ -6,6 +6,7 @@ import HomePage from './pages/homePage';
 import { ProfilePage } from './pages/profilePage';
 import { EditProfilePage } from './pages/editProfilePage';
 import CreatePostPage from './pages/createPostPage';
+import { EditPostPage } from './pages/editPostPage';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function AppWithRoutes() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/edit" element={<EditProfilePage />} />
           <Route path="/job-post" element={<CreatePostPage />} />
+          <Route path="/job-post/edit/:id" element={<EditPostPage />} />
         </Routes>
       </div>
     </>

@@ -1,5 +1,3 @@
-// src/components/ProfileCardComponent.tsx
-
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ProfileCardSkeleton, ProfileCardError } from "./Skeletons";
@@ -91,7 +89,7 @@ export const ProfileCardComponent: React.FC = () => {
   }
 
   return (
-    <div className="pt-10 flex items-center justify-center bg-white">
+    <div className="pt-10 flex items-center bg-white pl-20">
       <div className="w-full max-w-md bg-indigo-100 py-10 px-6 rounded-lg shadow-md flex flex-col items-center relative">
         <div className="absolute top-4 right-4" ref={menuRef}>
           {/* Dropdown button */}
@@ -141,29 +139,28 @@ export const ProfileCardComponent: React.FC = () => {
           )}
         </div>
 
-        {/* Confirmation Dialog */}
         {showConfirmationDialog && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
-            <div className="bg-white rounded-lg p-6 w-80">
-              <h3 className="text-lg font-semibold mb-4">Are you sure about this?</h3>
-              <div className="flex justify-end">
+        <div className="absolute top-0 left-0 flex items-start justify-center w-full h-full bg-black bg-opacity-50 z-20">
+            <div className="bg-white rounded-lg p-6 w-80 mt-10">
+            <h3 className="text-lg font-semibold mb-4">Are you sure about this?</h3>
+            <div className="flex justify-end">
                 <button
-                  onClick={() => setShowConfirmationDialog(false)}
-                  className="bg-green-500 text-gray-800 py-2 px-4 rounded mr-2 hover:bg-gray-400"
+                onClick={() => setShowConfirmationDialog(false)}
+                className="bg-green-500 text-gray-800 py-2 px-4 rounded mr-2 hover:bg-gray-400"
                 >
-                  No
+                No
                 </button>
                 <button
-                  onClick={deleteProfile}
-                  className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+                onClick={deleteProfile}
+                className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
                 >
-                  Yes
+                Yes
                 </button>
-              </div>
             </div>
-          </div>
+            </div>
+        </div>
         )}
-
+        
         <div className="flex items-center justify-center w-24 h-24 rounded-full bg-gray-200 border-4 border-indigo-500 mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,3 @@
-// src/components/CreatePostComponent.tsx
-
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +19,7 @@ const CreatePostComponent: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Prepare input data
+    //Preparing input data
     const inputData = {
       title: title.trim(),
       description: description.trim(),
@@ -30,8 +28,9 @@ const CreatePostComponent: React.FC = () => {
       company: company.trim(),
     };
 
-    const validationResult = createJobPostInput.safeParse(inputData);
 
+    //Input validation on frontend.
+    const validationResult = createJobPostInput.safeParse(inputData);
     if (!validationResult.success) {
       console.log("Validation Errors:", validationResult.error);
       setSubmitError("Please fill out all required fields correctly.");
@@ -55,9 +54,11 @@ const CreatePostComponent: React.FC = () => {
         },
       });
       navigate("/home");
+      
     } catch (err: any) {
       console.error("Error while creating the post:", err);
       setSubmitError("Error while creating the post.");
+
     } finally {
       setIsSubmitting(false);
     }

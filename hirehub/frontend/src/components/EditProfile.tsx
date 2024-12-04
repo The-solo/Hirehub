@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ProfileCardSkeleton, ProfileCardError } from "./Skeletons";
+import { EditProfileSkeleton, ProfileCardError } from "./Skeletons";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -113,7 +113,7 @@ const EditProfileComponent: React.FC = () => {
     };
 
     if (isLoading) {
-        return <ProfileCardSkeleton />;
+        return <EditProfileSkeleton />;
 
     } else if (error) {
         return <ProfileCardError />;

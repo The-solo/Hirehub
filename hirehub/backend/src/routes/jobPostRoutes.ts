@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { getPrisma } from '../prismaFun';
 import { auth, employerOnly } from '../middleware/middlewares';
 import { createJobPostInput, updateJobPostInput } from '../validation/validationSchemas';
+import errorMap from 'zod/locales/en.js';
 
 const jobPostRouter = new Hono<{
     Bindings : {
@@ -15,7 +16,52 @@ const jobPostRouter = new Hono<{
 }>()
 
 
-//route to get the all the application submited to the specific post.
+//route to get all the post for by the specific user(Employer)
+jobPostRouter.get("/allPosts", auth, employerOnly, async(c) => {
+    const prisma = getPrisma(c.env.DATABASE_URL);
+    try {
+        const employerID = c.get("userId");
+        if (!employerID) {
+            return c.json({
+                error: "Employer ID is required"
+            }, 400);
+        }
+
+        const allPosts = await prisma.jobPosting.findMany({
+            where : {
+                employerId : employerID,
+            }, select: {
+                id: true,
+                title: true,
+                description: true,
+                jobType: true,
+                location: true,
+                company: true,
+                createdAt: true,
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+
+        return c.json({
+            allPosts
+        }, 200);
+
+    } catch(err) {
+        console.error('Error:', err);
+        c.status(500)
+        return c.text("Error fetching the Job-posts.", 500);
+        
+    } finally {
+        await prisma.$disconnect();
+    }
+});
+
+
+
+
+//route to fetch all the application submited to the specific post.
 jobPostRouter.get("/applications", auth, employerOnly, async(c) => {
     const prisma = getPrisma(c.env.DATABASE_URL);
     try {
@@ -143,7 +189,8 @@ jobPostRouter.put("/update/:id", auth, employerOnly, async (c) => {
 
         const isValid = updateJobPostInput.safeParse(body);
         if (!isValid.success) {
-            return c.text("Invalid Inputs", 400);
+            return c.json(
+                isValid.error.errors, 400);
         }
 
         // Validate that the jobId is a number
