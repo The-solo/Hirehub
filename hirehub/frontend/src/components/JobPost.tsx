@@ -11,17 +11,27 @@ interface JobPostCardProps {
 }
 
 export const JobPostCard: React.FC<JobPostCardProps> = ({ jobPost }) => {
+
+    const navigate = useNavigate();
+
+    const handleApplyClick = (jobPostId: number, jobPost: JobPost) => {
+        navigate(`/apply/${jobPostId}`, { state: { jobPost } });
+    };
+
   return (
     <div className="flex justify-center px-8">
       <div className="border rounded-lg shadow p-6 mb-6 bg-zinc-50 w-[50rem] h-auto overflow-hidden">
         <div className="flex justify-between items-start mb-4">
           <h2 className="text-2xl font-bold">{jobPost.title}</h2>
-          <button
-            type="button"
-            className="py-2 px-4 text-sm text-white bg-green-600 hover:bg-green-800 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Apply
-          </button>
+          <div>
+            <button
+                type="button"
+                className="py-2 px-4 text-sm text-white bg-green-600 hover:bg-green-800 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onClick={() => handleApplyClick(jobPost.id, jobPost)}
+                >
+                Apply
+            </button>
+          </div>
         </div>
         <div className="text-gray-700 mb-6">
           <p className="text-base leading-relaxed">{jobPost.description}</p>
@@ -81,7 +91,8 @@ export const EmployerJobsCard: React.FC<JobPostCardProps> = ({ jobPost }) => {
     };
 
     const handleApplications = () => {
-        navigate(`/job-post/applications/${jobPost.id}`);
+        navigate(`/applications/${jobPost.id}`, { state: { jobPost } });
+
     };
 
     return (
@@ -134,4 +145,9 @@ export const EmployerJobsCard: React.FC<JobPostCardProps> = ({ jobPost }) => {
             </div>
         </div>
     );
+}
+
+
+export const EMployeeCard = () => {
+    
 }

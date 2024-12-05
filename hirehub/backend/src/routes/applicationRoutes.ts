@@ -1,7 +1,9 @@
 import { Hono } from 'hono'
 import { getPrisma } from '../prismaFun';
-import { auth, employeeOnly } from '../middleware/middlewares';
+import { auth, employeeOnly, employerOnly } from '../middleware/middlewares';
 import { createApplicationSchema, updateApplicationSchema } from '../validation/validationSchemas';
+import userRouter from './userRoutes';
+import app from '..';
 
 const applicationRouter = new Hono<{
     Bindings : {
@@ -12,7 +14,40 @@ const applicationRouter = new Hono<{
     }
 }>() 
 
+//route to fetch the applications for perticular jobPost.
+userRouter.get("/:id", auth, employerOnly, async(c) => {
+    const prisma = getPrisma(c.env.DATABASE_URL);
 
+    try {
+        const Id = c.req.param("id");
+        if (!Id || isNaN(Number(Id))) {
+            c.status(400); 
+            return c.text("Invalid job post ID", 400);
+        }
+
+        const applications = prisma.application.findMany({
+            where : {
+                jobPostingId : Number(Id),
+            }, select : {
+                resumeUrl : true,
+            }
+        });
+
+        return c.json({
+            applications,
+        }, 200);
+
+    } catch(err) {
+        console.error('Error:', err);
+        c.status(500)
+        return c.text("Error while fetching applications", 500);
+        
+    } finally {
+        await prisma.$disconnect();
+    }
+});
+
+//Router to create/apply for  the new application.
 applicationRouter.post("/new", auth, employeeOnly, async (c)=> {
     const prisma = getPrisma(c.env.DATABASE_URL);
 
@@ -20,8 +55,13 @@ applicationRouter.post("/new", auth, employeeOnly, async (c)=> {
         const body = await c.req.json();
 
         const isValid = createApplicationSchema.safeParse(body);
+        if(!isValid.success) {
+            return c.json({
+                message : "Invalid Inputs"
+            }, 401);
+        }
+        
         const employeeID = c.get('userId');
-
         const jobPosting = await prisma.jobPosting.findUnique({
             where: {
                 id: body.jobPostingId

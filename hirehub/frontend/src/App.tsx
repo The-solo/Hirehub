@@ -1,12 +1,13 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { Appbar } from './components/AppBar';
+import {     Appbar } from './components/AppBar';
 import { Signup } from './pages/landingPage';
 import { SignInPage } from './pages/signInPage';
 import HomePage from './pages/homePage';
 import { ProfilePage } from './pages/profilePage';
 import { EditProfilePage } from './pages/editProfilePage';
 import CreatePostPage from './pages/createPostPage';
-import { EditPostPage } from './pages/editPostPage';
+import EditPostPage  from './pages/editPostPage';
+import { ApplyPage } from "./pages/applyPage";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
 function AppWithRoutes() {
   const location = useLocation();
 
-  //exclude
+  //excluding the mentioned routes.
   const hideAppbarPaths = ['/', '/signin'];
   const hideAppbar = hideAppbarPaths.includes(location.pathname);
   
@@ -37,6 +38,7 @@ function AppWithRoutes() {
           <Route path="/profile/edit" element={<EditProfilePage />} />
           <Route path="/job-post" element={<CreatePostPage />} />
           <Route path="/job-post/edit/:id" element={<EditPostPage />} />
+          <Route path="/apply/:id" element={<ApplyPage />} />
         </Routes>
       </div>
     </>

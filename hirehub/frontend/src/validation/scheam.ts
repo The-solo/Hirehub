@@ -1,8 +1,7 @@
 import z from 'zod';
 
 
-const jobType = z.enum(["PART_TIME", "FULL_TIME", "INTERNSHIP"]);
-
+const JobType = z.enum(["PART_TIME", "FULL_TIME", "INTERNSHIP"]);
 // User related scheama below
 export const signupInput = z.object({
     email : z.string().email(),
@@ -31,7 +30,7 @@ export const editProfileInput = z.object({
 export const createJobPostInput = z.object({
     title : z.string().min(3).max(255),
     description : z.string(),
-    jobType : jobType,
+    jobType : JobType,
     location : z.string().max(255),
     company : z.string().min(3).max(255),    
 });
@@ -39,7 +38,7 @@ export const createJobPostInput = z.object({
 export const updateJobPostInput = z.object({
     title : z.string().min(3).max(255).optional(),
     description : z.string().optional(),
-    jobType : jobType.optional(),
+    jobType : JobType,
     location : z.string().max(255).optional(),
     company : z.string().min(3).max(255).optional(), 
 });
@@ -47,7 +46,6 @@ export const updateJobPostInput = z.object({
 
 
 //Job-Applications related schemas.
-
 export const createApplicationSchema = z.object({
     jobPostingId: z.number(),
     resumeUrl: z.string().url(),
