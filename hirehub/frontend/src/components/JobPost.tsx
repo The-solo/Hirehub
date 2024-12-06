@@ -91,7 +91,7 @@ export const EmployerJobsCard: React.FC<JobPostCardProps> = ({ jobPost }) => {
     };
 
     const handleApplications = () => {
-        navigate(`/applications/${jobPost.id}`, { state: { jobPost } });
+        navigate(`/job-post/applications/${jobPost.id}`, { state: { jobPost } });
 
     };
 

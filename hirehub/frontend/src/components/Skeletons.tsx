@@ -241,3 +241,38 @@ export const ApplicationLoadingSkeleton: React.FC = () => {
       </div>
     );
   };
+
+
+  export const ViewApplicationsLoading = () => {
+    return (
+      <div className="container mx-auto px-96 py-10">
+        <h1 className="text-2xl font-semibold mb-4">
+          <span className="text-blue-600 flex justify-self-center">Applications</span> for Job Post: 
+          <span className="text-gray-400 animate-pulse">Loading...</span>
+        </h1>
+  
+        {/* Loading Skeleton for Applications */}
+        <div className="space-y-4">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div
+              key={index}
+              className="bg-white p-4 rounded-lg shadow-md animate-pulse space-y-3 overflow-hidden relative"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-4 bg-gray-300 w-1/3 rounded-md"></div>
+                <div className="h-4 bg-gray-300 w-1/4 rounded-md"></div>
+              </div>
+              <div className="mt-2 flex justify-end">
+                <div className="h-10 bg-gray-300 w-24 rounded-md"></div>
+              </div>
+  
+              {/* Moving Gradient Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-200 to-transparent animate-loading-skeleton"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+  
+  

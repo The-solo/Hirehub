@@ -51,7 +51,7 @@ export const HomeFeed: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 relative">
+    <div className="container mx-auto p-4 relative pt-14">
       {feed.length > 0 ? (
         feed.map((job) => <JobPostCard key={job.id} jobPost={job} />)
       ) : (
@@ -145,7 +145,7 @@ export const EmployerFeed: React.FC = () => {
     }
   
     return (
-      <div className="container mx-auto p-4 relative">
+      <div className="container mx-auto p-4 relative pt-14">
         {feed.length > 0 ? (
           feed.map((job) => <EmployerJobsCard key={job.id} jobPost={job} />)
         ) : (

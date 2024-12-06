@@ -2,8 +2,6 @@ import { Hono } from 'hono'
 import { getPrisma } from '../prismaFun';
 import { auth, employeeOnly, employerOnly } from '../middleware/middlewares';
 import { createApplicationSchema, updateApplicationSchema } from '../validation/validationSchemas';
-import userRouter from './userRoutes';
-import app from '..';
 
 const applicationRouter = new Hono<{
     Bindings : {
@@ -15,26 +13,27 @@ const applicationRouter = new Hono<{
 }>() 
 
 //route to fetch the applications for perticular jobPost.
-userRouter.get("/:id", auth, employerOnly, async(c) => {
+applicationRouter.get("/:jobPostId", auth, employerOnly, async(c) => {
     const prisma = getPrisma(c.env.DATABASE_URL);
 
     try {
-        const Id = c.req.param("id");
+        const Id = c.req.param("jobPostId");
         if (!Id || isNaN(Number(Id))) {
             c.status(400); 
             return c.text("Invalid job post ID", 400);
         }
 
-        const applications = prisma.application.findMany({
+        const applications = await prisma.application.findMany({
             where : {
                 jobPostingId : Number(Id),
             }, select : {
+                id : true,
                 resumeUrl : true,
             }
         });
 
         return c.json({
-            applications,
+            applications
         }, 200);
 
     } catch(err) {
@@ -100,12 +99,12 @@ applicationRouter.post("/new", auth, employeeOnly, async (c)=> {
 
 
 //route to update the application 
-applicationRouter.post("/update/:id", auth, employeeOnly, async (c)=> {
+applicationRouter.put("/:applicationId", auth, employeeOnly, async (c)=> {
     const prisma = getPrisma(c.env.DATABASE_URL);
 
     try {
         const body = await c.req.json();
-        const applicationId = parseInt(c.req.param('id'));
+        const applicationId = parseInt(c.req.param('applicationId'));
         const employeeId = c.get('userId');
 
         const isValid = updateApplicationSchema.safeParse(body);
@@ -160,19 +159,28 @@ applicationRouter.post("/update/:id", auth, employeeOnly, async (c)=> {
 
 
 //route to delete the application
-applicationRouter.post("/delete/:id", auth, employeeOnly, async (c)=> {
+applicationRouter.delete("/:applicationId", auth, employerOnly, async (c) => {
     const prisma = getPrisma(c.env.DATABASE_URL);
 
     try {
-        const applicationId = parseInt(c.req.param('id'));
-        const employeeId = c.get('userId');
+        const employerId = c.get('userId');
+        const applicationId = parseInt(c.req.param('applicationId'));
+        console.log("Received application ID:", applicationId);
+        
+        if (isNaN(applicationId)) {
+            return c.json({
+                error: 'Invalid application ID.'
+            }, 400);
+        }
 
         const application = await prisma.application.findUnique({
             where: {
                 id: applicationId
             },
+            include: {
+                jobPosting: true,
+            }
         });
-
 
         if (!application) {
             return c.json({
@@ -180,7 +188,7 @@ applicationRouter.post("/delete/:id", auth, employeeOnly, async (c)=> {
             }, 404);
         }
 
-        if (application.employeeId !== employeeId) {
+        if (application.jobPosting.employerId !== employerId) {
             return c.json({
                 error: 'Unauthorized to delete this application.'
             }, 403);
@@ -196,15 +204,16 @@ applicationRouter.post("/delete/:id", auth, employeeOnly, async (c)=> {
             message: 'Application deleted successfully.'
         }, 200);
 
-    } catch(err) {
+    } catch (err) {
         console.error('Error:', err);
-        c.status(500)
+        c.status(500);
         return c.text("Error while deleting application", 500);
-        
+
     } finally {
         await prisma.$disconnect();
     }
 });
+
 
 
 export default applicationRouter;

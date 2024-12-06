@@ -1,4 +1,3 @@
-
 export const SearchBar = () => {
     return <div className="">
         <div className="flex border-2 border-blue-200 rounded-full overflow-hidden max-w-full font-normal text-gray-500">

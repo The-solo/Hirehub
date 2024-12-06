@@ -49,7 +49,45 @@ otherRoutes.get("/feed", auth, async(c)=>{
 
 
 //search functionality route --optional
-otherRoutes.get("/search/:string", auth, async (c) =>{
+otherRoutes.get("/search/", auth, async (c) =>{
+    const prisma = getPrisma(c.env.DATABASE_URL);
+
+    try {
+        const searchQuery = c.req.query("name");
+
+        if (!searchQuery) {
+            return c.json({
+                error: 'Name query is required.'
+            }, 400);
+        }
+
+        const profiles = await prisma.user.findMany({
+            where: {
+                name: {
+                    contains: searchQuery,
+                    mode: "insensitive",
+                },
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                description: true,
+            },
+        });
+
+        return c.json({ 
+            profiles
+        }, 200);
+
+    } catch (err) {
+        console.error('Error:', err);
+        c.status(500);
+        return c.text("Error while searching profiles", 500);
+
+    } finally {
+        await prisma.$disconnect();
+    }
 
 });
 

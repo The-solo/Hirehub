@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { createApplicationSchema } from "../validation/scheam";
-import { useParams } from 'react-router-dom';
+
 import axios from "axios";
 import { ApplicationLoadingSkeleton } from "../components/Skeletons";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const ApplyPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
   const { state } = useLocation(); // Getting job post data passed from the home page
   const jobPost = state?.jobPost;
 
@@ -83,7 +82,7 @@ export const ApplyPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-white flex items-center justify-center px-4 py-4">
+    <div className="bg-white flex items-center justify-center px-4 pt-20">
       <div className="bg-slate-100 shadow-lg rounded-lg w-full max-w-3xl">
         <div className="bg-indigo-500 text-white px-4 py-2 rounded-t-lg">
           <h2 className="text-xl font-semibold">Apply for {jobPost.title}</h2>

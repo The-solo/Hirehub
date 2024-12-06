@@ -120,7 +120,7 @@ const EditProfileComponent: React.FC = () => {
 
     } else {
         return (
-            <div className="bg-white flex items-center justify-center px-4 py-10">
+            <div className="bg-white flex items-center justify-center px-4 pt-20">
                 <div className="bg-slate-100 shadow-lg rounded-lg w-full max-w-3xl">
                     <div className="bg-indigo-500 text-white px-4 py-2 rounded-t-lg">
                         <h2 className="text-xl font-semibold">Edit Profile</h2>
