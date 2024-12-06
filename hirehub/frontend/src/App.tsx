@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import {     Appbar } from './components/AppBar';
+import { Appbar } from './components/AppBar';
 import { Signup } from './pages/landingPage';
 import { SignInPage } from './pages/signInPage';
 import HomePage from './pages/homePage';
 import { ProfilePage } from './pages/profilePage';
 import { EditProfilePage } from './pages/editProfilePage';
 import CreatePostPage from './pages/createPostPage';
-import EditPostPage  from './pages/editPostPage';
+import EditPostPage from './pages/editPostPage';
 import { ApplyPage } from "./pages/applyPage";
 import { ApplicationsPage } from './pages/viewApplicationPage';
+import { SearchResultsPage } from './pages/userProfilesPage';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function AppWithRoutes() {
   //excluding the mentioned routes.
   const hideAppbarPaths = ['/', '/signin'];
   const hideAppbar = hideAppbarPaths.includes(location.pathname);
-  
+
   return (
     <>
       {/* Conditionally render Appbar */}
@@ -41,6 +42,7 @@ function AppWithRoutes() {
           <Route path="/job-post/edit/:id" element={<EditPostPage />} />
           <Route path="/apply/:id" element={<ApplyPage />} />
           <Route path="/job-post/applications/:id" element={<ApplicationsPage />} />
+          <Route path="/search/user" element={<SearchResultsPage />} /> {/* Fixed route */}
         </Routes>
       </div>
     </>

@@ -73,8 +73,7 @@ export const ApplyPage: React.FC = () => {
       }
 
     } catch (err) {
-      console.error("Error while applying:", err);
-      setSubmitError("Error while submitting your application.");
+      setSubmitError("Error submitting application OR your role is restricted.");
 
     } finally {
       setIsSubmitting(false);

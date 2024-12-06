@@ -50,8 +50,8 @@ otherRoutes.get("/feed", auth, async(c)=>{
 
 //search functionality route --optional
 otherRoutes.get("/search/", auth, async (c) =>{
-    const prisma = getPrisma(c.env.DATABASE_URL);
 
+    const prisma = getPrisma(c.env.DATABASE_URL);
     try {
         const searchQuery = c.req.query("name");
 
@@ -75,7 +75,7 @@ otherRoutes.get("/search/", auth, async (c) =>{
                 description: true,
             },
         });
-
+        
         return c.json({ 
             profiles
         }, 200);
@@ -88,7 +88,6 @@ otherRoutes.get("/search/", auth, async (c) =>{
     } finally {
         await prisma.$disconnect();
     }
-
 });
 
 

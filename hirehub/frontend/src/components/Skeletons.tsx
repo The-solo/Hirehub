@@ -276,3 +276,35 @@ export const ApplicationLoadingSkeleton: React.FC = () => {
   };
   
   
+
+  export const NoProfilesError = () => {
+    return (
+        <div className="flex justify-center items-center h-80 pt-20">
+          <div className="border rounded-lg shadow-lg p-12 bg-gray-50 max-w-md w-full text-center">
+           
+            <div className="flex justify-center mb-4">
+              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center animate-bounce">
+                <svg
+                  className="w-6 h-6 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.75 9V6.75a3.75 3.75 0 117.5 0V9m-10.5 0h14.5M6.75 12.5v7.75M17.25 12.5v7.75m-9.5-7.75h9.5"
+                  />
+                </svg>
+              </div>
+            </div>
+          <h2 className="text-2xl font-extrabold text-red-600 mb-2">Error!</h2>
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">
+              No users found, please try again!!
+            </h2>
+          </div>
+        </div>
+      );
+  };
