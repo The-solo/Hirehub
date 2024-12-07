@@ -40,8 +40,8 @@ const CreatePostComponent: React.FC = () => {
     try {
       setIsSubmitting(true);
       setSubmitError(null);
-      const token = localStorage.getItem("token");
 
+      const token = localStorage.getItem("token");
       if (!token) {
         navigate("/signin");
         return;
@@ -53,6 +53,7 @@ const CreatePostComponent: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
+      alert("Job-Post created successfully.")
       navigate("/home");
       
     } catch (err: any) {
@@ -145,7 +146,7 @@ const CreatePostComponent: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 required
                 placeholder="Describe the job..."
-                rows={6}
+                rows={4}
               ></textarea>
             </div>
           </div>
