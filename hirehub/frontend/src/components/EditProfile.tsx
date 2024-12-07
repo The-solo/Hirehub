@@ -47,7 +47,7 @@ const EditProfileComponent: React.FC = () => {
                 },
             });
 
-            console.log(profile?.name);
+            console.log(profile);
             setProfile(response.data.profile);
 
             // Pre-filling form inputs with current profile values
