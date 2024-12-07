@@ -130,9 +130,9 @@ const CreatePostComponent: React.FC = () => {
                 required
               >
                 <option value="">Select Job Type</option>
-                <option value="FULL_TIME">FULL_TIME</option>
-                <option value="PART_TIME">PART_TIME</option>
-                <option value="INTERN">INTERNSHIP</option>
+                <option value="FULL_TIME">Full time</option>
+                <option value="PART_TIME">Part time</option>
+                <option value="INTERNSHIP">Intern</option>
               </select>
             </div>
             <div className="w-full px-2 mb-4">

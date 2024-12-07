@@ -30,7 +30,7 @@ export const editProfileInput = z.object({
 export const createJobPostInput = z.object({
     title : z.string().min(3).max(255),
     description : z.string(),
-    jobType : z.enum(["PART_TIME", "FULL_TIME", "INTERNSHIP"]),
+    jobType : JobType,
     location : z.string().max(255),
     company : z.string().min(3).max(255),    
 });
