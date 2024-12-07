@@ -5,8 +5,16 @@ import { EditProfileSkeleton, ProfileCardError } from "./Skeletons";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+interface Profile {
+    name: string;
+    email: string;
+    description?: string;
+    education?: string;
+    role: string;
+}
+
 const EditProfileComponent: React.FC = () => {
-    const [profile, setProfile] = useState<any>(null);
+    const [profile, setProfile] = useState<Profile | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -39,9 +47,10 @@ const EditProfileComponent: React.FC = () => {
                 },
             });
 
+            console.log(profile?.name);
             setProfile(response.data.profile);
 
-            // Pre-fill form inputs with current profile values
+            // Pre-filling form inputs with current profile values
             setName(response.data.profile.name || "");
             setEmail(response.data.profile.email || "");
             setDescription(response.data.profile.description || "");
